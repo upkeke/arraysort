@@ -9,7 +9,6 @@ namespace 二叉树 {
 		//vector<int> arr = 获得数组无重复数(10); // 获得一个size为11的vector
 
 		vector<int> arr{ 5,40,43,51,55,65,70,83,96,100 };
-
 		AVLTree* head = new AVLTree(arr);
 		cout << "中序遍历" << endl;
 		head->中序遍历();
