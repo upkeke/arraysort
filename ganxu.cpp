@@ -201,17 +201,18 @@ namespace
 	int 分中界(vector<int>& arr, int left, int right)
 	{
 		if (left == right) return left;
-		int midVal = arr[right]; //以midVal 为中界将小于等于midVal放在其左边，大于的放在右边
-		int midIndex = left; //大于midVal的第一个下标
+		int midVal = arr[right]; //以midVal 为中界将小于等于midVal放在其左边，大于的放在右边 //取right也就是最右边的值为中间值
+		int midIndex = left; //始终指向大于midVal的第一个下标
 		for (int i = left; i < right; ++i)
 		{
+			//遍历到一个值小于midVal，将这个值和midIndex指向的值交换，midIndex加一，midIndex依然指向第一个大于midVal的值
 			if (arr[i] <= midVal)
 			{
 				std::swap(arr[i], arr[midIndex]);
 				midIndex++;
 			}
 		}
-		std::swap(arr[right], arr[midIndex]);
+		std::swap(arr[right], arr[midIndex]); //将right指向的值和midindex交换，最后midIndex指向的中间值
 		return midIndex;
 	}
 	/// <summary>
@@ -229,12 +230,16 @@ namespace
 	}
 }
 namespace{
+	//将数组分成2拨，并且使得2拨数组都是有序，合并方法2个数组的顶上的元素都是各自组内最小的元素，二者比较，取2个中最小的值放到目标数组的首尾
+	//重复上面步骤，最后所得的数组是有序的
 	void 合并数组(vector<int>& arr, int left1, int left2, int right)
 	{
 		vector<int> temp = arr; // 这儿复制的这个数组，其实只用复制left1 到 right，但是目前这么写方便观察算法过程
 		int mid = left2;
 		for (int i = left1; i <= right; ++i)
 		{
+			//这儿说明一下left2 > right，有可能left2-right这部分都小于前一部分，这样就先把这部分放到目标数组中了，left2已经越界，这是后也没必要比较 temp[left1] < temp[left2]
+			//直接把前一部分剩余的数放到目标数组里面
 			if (left2 > right||(left1 < mid && temp[left1] < temp[left2]))
 			{
 				arr[i] = temp[left1++];
